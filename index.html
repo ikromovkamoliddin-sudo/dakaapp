@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>极简自律打卡</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #000;
+      color: #FFD700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 30px 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+
+    /* 页面共用 */
+    .page {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    /* 标题大字 */
+    .title {
+      font-size: 40px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .today-info {
+      font-size: 18px;
+      opacity: 0.9;
+      text-align: center;
+    }
+
+    .quote {
+      font-size: 17px;
+      font-style: italic;
+      opacity: 0.85;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    /* 返回按钮 */
+    .back-btn {
+      padding: 12px 25px;
+      background: #111;
+      color: #FFD700;
+      border: 1px solid #FFD700;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* 添加任务 */
+    .add-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .add-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    input {
+      flex: 1;
+      min-width: 130px;
+      padding: 15px;
+      background: #111;
+      color: #FFD700;
+      border: 1px solid #FFD700;
+      outline: none;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    .add-btn {
+      padding: 15px;
+      background: #FFD700;
+      color: #000;
+      border: none;
+      font-size: 17px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* 首页任务卡片 */
+    .task-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .task-item {
+      background: #111;
+      border: 1px solid #FFD700;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* 详情页进度 */
+    .task-detail {
+      width: 100%;
+      text-align: center;
+    }
+
+    .detail-name {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .detail-note {
+      font-size: 18px;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+
+    .progress {
+      width: 100%;
+      height: 16px;
+      background: #000;
+      border: 1px solid #FFD700;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #FFD700;
+      width: 0%;
+      transition: width 0.6s ease;
+    }
+
+    .day-text {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    /* 超大完成按钮 */
+    .done-btn {
+      padding: 22px;
+      background: #FFD700;
+      color: #000;
+      border: none;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .del-btn {
+      margin-top: 15px;
+      padding: 12px;
+      background: #222;
+      color: #FFD700;
+      border: 1px solid #FFD700;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* 打卡日历（详情页） */
+    .calendar {
+      width: 100%;
+      background: #111;
+      border: 1px solid #FFD700;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .calendar-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .calendar-day {
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 6px;
+      background: #000;
+    }
+
+    .calendar-day.done {
+      background: #FFD700;
+      color: #000;
+      font-weight: bold;
+    }
+
+    /* 烟花 & 证书 */
+    #fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      display: none;
+      z-index: 999;
+    }
+
+    .certificate {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      border: 2px solid #FFD700;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      z-index: 1000;
+      display: none;
+    }
+
+    .cert-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .cert-close {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: #FFD700;
+      color: #000;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="fireworks"></canvas>
+
+  <!-- 完成证书 -->
+  <div class="certificate" id="cert">
+    <div class="cert-title">🎉 任务完成 🎉</div>
+    <p id="certText" style="font-size:18px;"></p >
+    <button class="cert-close" onclick="closeCert()">关闭</button>
+  </div>
+
+  <div class="container">
+    <!-- ========== 第1页：任务列表 ========== -->
+    <div class="page" id="page1">
+      <div class="title">自律打卡</div>
+      <div class="today-info" id="nowDate"></div>
+      <div class="quote" id="quote"></div>
+
+      <div class="add-box">
+        <div class="add-row">
+          <input type="text" id="taskName" placeholder="输入任务名称">
+          <input type="number" id="taskDays" placeholder="坚持天数" min="1">
+          <input type="text" id="taskNote" placeholder="备注（可选）">
+        </div>
+        <button class="add-btn" onclick="addTask()">➕ 添加新任务</button>
+      </div>
+
+      <div class="task-list" id="taskList"></div>
+    </div>
+
+    <!-- ========== 第2页：单个任务详情（进度+日历+完成） ========== -->
+    <div class="page hide" id="page2">
+      <button class="back-btn" onclick="goBack()">← 返回任务列表</button>
+
+      <div class="task-detail">
+        <div class="detail-name" id="detailName"></div>
+        <div class="detail-note" id="detailNote"></div>
+        <div class="progress"><div class="progress-bar" id="detailBar"></div></div>
+        <div class="day-text" id="detailDay"></div>
+      </div>
+
+      <!-- 任务日历 -->
+      <div class="calendar">
+        <div class="calendar-title">本月打卡日历</div>
+        <div class="calendar-days" id="detailCal"></div>
+      </div>
+
+      <!-- 超大完成按钮 -->
+      <button class="done-btn" id="doneBtn">✅ 今日已完成</button>
+      <button class="del-btn" onclick="deleteCurrentTask()">🗑️ 删除该任务</button>
+    </div>
+  </div>
+
+  <script>
+    // 数据存储
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    let checkRecord = JSON.parse(localStorage.getItem('checkRecord')) || {}; // 记录每日打卡
+    let currentTaskId = null; // 当前打开的任务ID
+
+    const fwCanvas = document.getElementById('fireworks');
+    const ctx = fwCanvas.getContext('2d');
+
+    // 励志语录
+    const quotes = [
+      "坚持，是最好的天赋", "自律给我自由", "日积月累，水滴石穿",
+      "今天的努力，明天的实力", "不拖延，不放弃"
+    ];
+
+    // 今日日期（用于判断是否重复打卡）
+    function getToday() {
+      let d = new Date();
+      return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    }
+
+    // 初始化
+    window.onload = () => {
+      showDate();
+      showQuote();
+      renderTaskList();
+    };
+
+    // 显示日期
+    function showDate() {
+      let d = new Date();
+      let week = ["周日","周一","周二","周三","周四","周五","周六"][d.getDay()];
+      document.getElementById('nowDate').innerText = 
+        `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 · ${week}`;
+    }
+
+    // 显示语录
+    function showQuote() {
+      document.getElementById('quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+    }
+
+    // 保存数据
+    function saveAll() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      localStorage.setItem('checkRecord', JSON.stringify(checkRecord));
+    }
+
+    // -------------------- 页面1：任务列表 --------------------
+    function renderTaskList() {
+      let list = document.getElementById('taskList');
+      list.innerHTML = '';
+      tasks.forEach(t => {
+        let item = document.createElement('div');
+        item.className = 'task-item';
+        item.innerText = t.name;
+        item.onclick = () => openTaskDetail(t.id);
+        list.appendChild(item);
+      });
+    }
+
+    // 添加任务
+    function addTask() {
+      let name = document.getElementById('taskName').value.trim();
+      let days = Number(document.getElementById('taskDays').value);
+      let note = document.getElementById('taskNote').value.trim();
+      if (!name || !days || days < 1) {
+        alert('请填写任务名称和坚持天数！');
+        return;
+      }
+      tasks.push({
+        id: Date.now(), name, total: days, current: 1, note
+      });
+      document.getElementById('taskName').value = '';
+      document.getElementById('taskDays').value = '';
+      document.getElementById('taskNote').value = '';
+      saveAll();
+      renderTaskList();
+    }
+
+    // -------------------- 页面切换 --------------------
+    function openTaskDetail(id) {
+      currentTaskId = id;
+      let task = tasks.find(t => t.id === id);
+      if (!task) return;
+
+      // 填任务信息
+      document.getElementById('detailName').innerText = task.name;
+      document.getElementById('detailNote').innerText = task.note || '无备注';
+      let per = (task.current / task.total) * 100;
+      document.getElementById('detailBar').style.width = per + '%';
+      document.getElementById('detailDay').innerText = `第 ${task.current} 天 / 共 ${task.total} 天`;
+
+      // 渲染日历
+      renderCal();
+      // 判断今日是否已打卡
+      checkTodayStatus();
+
+      document.getElementById('page1').classList.add('hide');
+      document.getElementById('page2').classList.remove('hide');
+    }
+
+    function goBack() {
+      document.getElementById('page2').classList.add('hide');
+      document.getElementById('page1').classList.remove('hide');
+      renderTaskList();
+    }
+
+    // -------------------- 打卡限制：今日只能一次 --------------------
+    function checkTodayStatus() {
+      let key = `${currentTaskId}_${getToday()}`;
+      let btn = document.getElementById('doneBtn');
+      if (checkRecord[key]) {
+        btn.classList.add('hide'); // 已打卡 → 隐藏按钮
+      } else {
+        btn.classList.remove('hide'); // 未打卡 → 显示按钮
+      }
+    }
+
+    // -------------------- 完成打卡（烟花+按钮隐藏） --------------------
+    document.getElementById('doneBtn').onclick = () => {
+      let task = tasks.find(t => t.id === currentTaskId);
+      if (!task) return;
+
+      // 任务已完成
+      if (task.current >= task.total) {
+        showCert(task.name);
+        playFireworks();
+        return;
+      }
+
+      // 今日打卡
+      let key = `${currentTaskId}_${getToday()}`;
+      checkRecord[key] = 1;
+      task.current++;
+      saveAll();
+      playFireworks();
+      
+      // 刷新进度 + 隐藏按钮
+      let per = (task.current / task.total) * 100;
+      document.getElementById('detailBar').style.width = per + '%';
+      document.getElementById('detailDay').innerText = `第 ${task.current} 天 / 共 ${task.total} 天`;
+      document.getElementById('doneBtn').classList.add('hide');
+      renderCal();
+    };
+
+    // -------------------- 日历 --------------------
+    function renderCal() {
+      let cal = document.getElementById('detailCal');
+      cal.innerHTML = '';
+      let d = new Date();
+      let days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+      for (let i=1; i<=days; i++) {
+        let dateStr = `${d.getFullYear()}-${d.getMonth()+1}-${i}`;
+        let key = `${currentTaskId}_${dateStr}`;
+        let div = document.createElement('div');
+        div.className = 'calendar-day' + (checkRecord[key] ? ' done' : '');
+        div.innerText = i;
+        cal.appendChild(div);
+      }
+    }
+
+    // -------------------- 烟花 & 证书 --------------------
+    function playFireworks() {
+      fwCanvas.style.display = 'block';
+      fwCanvas.width = window.innerWidth;
+      fwCanvas.height = window.innerHeight;
+      let particles = [];
+      for (let i=0; i<180; i++) {
+        particles.push({
+          x: fwCanvas.width/2, y: fwCanvas.height/2,
+          vx: (Math.random()-0.5)*12, vy: (Math.random()-0.5)*12,
+          life:130, color:`hsl(${45+Math.random()*15},100%,65%)`
+        });
+      }
+      function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(0,0,fwCanvas.width,fwCanvas.height);
+        let end = true;
+        particles.forEach(p => {
+          if (p.life <=0) return;
+          end = false;
+          ctx.fillStyle = p.color;
+          ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,Math.PI*2); ctx.fill();
+          p.x += p.vx; p.y += p.vy; p.vy += 0.13; p.life--;
+        });
+        end ? fwCanvas.style.display='none' : requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    function showCert(name) {
+      document.getElementById('certText').innerText = `恭喜你！已完成任务：${name}！\n坚持到底，就是胜利！`;
+      document.getElementById('cert').style.display = 'block';
+    }
+
+    function closeCert() {
+      document.getElementById('cert').style.display = 'none';
+    }
+
+    // 删除当前任务
+    function deleteCurrentTask() {
+      if (!confirm('确定删除该任务？')) return;
+      tasks = tasks.filter(t => t.id !== currentTaskId);
+      saveAll();
+      goBack();
+    }
+  </script>
+</body>
+</html>
