@@ -1,0 +1,548 @@
+{\rtf1\ansi\ansicpg936\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="zh-CN">\
+<head>\
+  <meta charset="UTF-8">\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+  <title>\uc0\u26497 \u31616 \u33258 \u24459 \u25171 \u21345 </title>\
+  <style>\
+    * \{\
+      margin: 0;\
+      padding: 0;\
+      box-sizing: border-box;\
+    \}\
+\
+    body \{\
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;\
+      background: #000;\
+      color: #FFD700;\
+      display: flex;\
+      flex-direction: column;\
+      align-items: center;\
+      min-height: 100vh;\
+      padding: 30px 15px;\
+    \}\
+\
+    .container \{\
+      width: 100%;\
+      max-width: 580px;\
+      display: flex;\
+      flex-direction: column;\
+      align-items: center;\
+      gap: 25px;\
+    \}\
+\
+    /* \uc0\u39029 \u38754 \u20849 \u29992  */\
+    .page \{\
+      width: 100%;\
+      display: flex;\
+      flex-direction: column;\
+      align-items: center;\
+      gap: 25px;\
+    \}\
+\
+    .hide \{\
+      display: none;\
+    \}\
+\
+    /* \uc0\u26631 \u39064 \u22823 \u23383  */\
+    .title \{\
+      font-size: 40px;\
+      font-weight: bold;\
+      text-align: center;\
+    \}\
+\
+    .today-info \{\
+      font-size: 18px;\
+      opacity: 0.9;\
+      text-align: center;\
+    \}\
+\
+    .quote \{\
+      font-size: 17px;\
+      font-style: italic;\
+      opacity: 0.85;\
+      text-align: center;\
+      max-width: 90%;\
+    \}\
+\
+    /* \uc0\u36820 \u22238 \u25353 \u38062  */\
+    .back-btn \{\
+      padding: 12px 25px;\
+      background: #111;\
+      color: #FFD700;\
+      border: 1px solid #FFD700;\
+      font-size: 18px;\
+      font-weight: bold;\
+      border-radius: 8px;\
+      cursor: pointer;\
+    \}\
+\
+    /* \uc0\u28155 \u21152 \u20219 \u21153  */\
+    .add-box \{\
+      width: 100%;\
+      display: flex;\
+      flex-direction: column;\
+      gap: 12px;\
+    \}\
+\
+    .add-row \{\
+      display: flex;\
+      gap: 10px;\
+      flex-wrap: wrap;\
+    \}\
+\
+    input \{\
+      flex: 1;\
+      min-width: 130px;\
+      padding: 15px;\
+      background: #111;\
+      color: #FFD700;\
+      border: 1px solid #FFD700;\
+      outline: none;\
+      font-size: 16px;\
+      border-radius: 8px;\
+    \}\
+\
+    .add-btn \{\
+      padding: 15px;\
+      background: #FFD700;\
+      color: #000;\
+      border: none;\
+      font-size: 17px;\
+      font-weight: bold;\
+      border-radius: 8px;\
+      cursor: pointer;\
+    \}\
+\
+    /* \uc0\u39318 \u39029 \u20219 \u21153 \u21345 \u29255  */\
+    .task-list \{\
+      width: 100%;\
+      display: flex;\
+      flex-direction: column;\
+      gap: 15px;\
+    \}\
+\
+    .task-item \{\
+      background: #111;\
+      border: 1px solid #FFD700;\
+      padding: 20px;\
+      border-radius: 12px;\
+      text-align: center;\
+      font-size: 22px;\
+      font-weight: bold;\
+      cursor: pointer;\
+    \}\
+\
+    /* \uc0\u35814 \u24773 \u39029 \u36827 \u24230  */\
+    .task-detail \{\
+      width: 100%;\
+      text-align: center;\
+    \}\
+\
+    .detail-name \{\
+      font-size: 30px;\
+      font-weight: bold;\
+      margin-bottom: 10px;\
+    \}\
+\
+    .detail-note \{\
+      font-size: 18px;\
+      opacity: 0.85;\
+      margin-bottom: 20px;\
+    \}\
+\
+    .progress \{\
+      width: 100%;\
+      height: 16px;\
+      background: #000;\
+      border: 1px solid #FFD700;\
+      border-radius: 8px;\
+      overflow: hidden;\
+      margin-bottom: 15px;\
+    \}\
+\
+    .progress-bar \{\
+      height: 100%;\
+      background: #FFD700;\
+      width: 0%;\
+      transition: width 0.6s ease;\
+    \}\
+\
+    .day-text \{\
+      font-size: 20px;\
+      font-weight: bold;\
+      margin-bottom: 25px;\
+    \}\
+\
+    /* \uc0\u36229 \u22823 \u23436 \u25104 \u25353 \u38062  */\
+    .done-btn \{\
+      padding: 22px;\
+      background: #FFD700;\
+      color: #000;\
+      border: none;\
+      font-size: 24px;\
+      font-weight: bold;\
+      border-radius: 10px;\
+      cursor: pointer;\
+      width: 100%;\
+    \}\
+\
+    .del-btn \{\
+      margin-top: 15px;\
+      padding: 12px;\
+      background: #222;\
+      color: #FFD700;\
+      border: 1px solid #FFD700;\
+      font-size: 16px;\
+      border-radius: 6px;\
+      cursor: pointer;\
+      width: 100%;\
+    \}\
+\
+    /* \uc0\u25171 \u21345 \u26085 \u21382 \u65288 \u35814 \u24773 \u39029 \u65289  */\
+    .calendar \{\
+      width: 100%;\
+      background: #111;\
+      border: 1px solid #FFD700;\
+      padding: 20px;\
+      border-radius: 10px;\
+      text-align: center;\
+    \}\
+\
+    .calendar-title \{\
+      font-size: 18px;\
+      font-weight: bold;\
+      margin-bottom: 15px;\
+    \}\
+\
+    .calendar-days \{\
+      display: grid;\
+      grid-template-columns: repeat(7, 1fr);\
+      gap: 6px;\
+    \}\
+\
+    .calendar-day \{\
+      padding: 8px;\
+      font-size: 14px;\
+      border-radius: 6px;\
+      background: #000;\
+    \}\
+\
+    .calendar-day.done \{\
+      background: #FFD700;\
+      color: #000;\
+      font-weight: bold;\
+    \}\
+\
+    /* \uc0\u28895 \u33457  & \u35777 \u20070  */\
+    #fireworks \{\
+      position: fixed;\
+      top: 0;\
+      left: 0;\
+      width: 100%;\
+      height: 100%;\
+      pointer-events: none;\
+      display: none;\
+      z-index: 999;\
+    \}\
+\
+    .certificate \{\
+      position: fixed;\
+      top: 50%;\
+      left: 50%;\
+      transform: translate(-50%, -50%);\
+      background: #111;\
+      border: 2px solid #FFD700;\
+      padding: 40px;\
+      border-radius: 15px;\
+      text-align: center;\
+      z-index: 1000;\
+      display: none;\
+    \}\
+\
+    .cert-title \{\
+      font-size: 28px;\
+      margin-bottom: 20px;\
+    \}\
+\
+    .cert-close \{\
+      margin-top: 20px;\
+      padding: 12px 25px;\
+      background: #FFD700;\
+      color: #000;\
+      border: none;\
+      font-size: 16px;\
+      border-radius: 8px;\
+      cursor: pointer;\
+    \}\
+  </style>\
+</head>\
+\
+<body>\
+  <canvas id="fireworks"></canvas>\
+\
+  <!-- \uc0\u23436 \u25104 \u35777 \u20070  -->\
+  <div class="certificate" id="cert">\
+    <div class="cert-title">\uc0\u55356 \u57225  \u20219 \u21153 \u23436 \u25104  \u55356 \u57225 </div>\
+    <p id="certText" style="font-size:18px;"></p >\
+    <button class="cert-close" onclick="closeCert()">\uc0\u20851 \u38381 </button>\
+  </div>\
+\
+  <div class="container">\
+    <!-- ========== \uc0\u31532 1\u39029 \u65306 \u20219 \u21153 \u21015 \u34920  ========== -->\
+    <div class="page" id="page1">\
+      <div class="title">\uc0\u33258 \u24459 \u25171 \u21345 </div>\
+      <div class="today-info" id="nowDate"></div>\
+      <div class="quote" id="quote"></div>\
+\
+      <div class="add-box">\
+        <div class="add-row">\
+          <input type="text" id="taskName" placeholder="\uc0\u36755 \u20837 \u20219 \u21153 \u21517 \u31216 ">\
+          <input type="number" id="taskDays" placeholder="\uc0\u22362 \u25345 \u22825 \u25968 " min="1">\
+          <input type="text" id="taskNote" placeholder="\uc0\u22791 \u27880 \u65288 \u21487 \u36873 \u65289 ">\
+        </div>\
+        <button class="add-btn" onclick="addTask()">\uc0\u10133  \u28155 \u21152 \u26032 \u20219 \u21153 </button>\
+      </div>\
+\
+      <div class="task-list" id="taskList"></div>\
+    </div>\
+\
+    <!-- ========== \uc0\u31532 2\u39029 \u65306 \u21333 \u20010 \u20219 \u21153 \u35814 \u24773 \u65288 \u36827 \u24230 +\u26085 \u21382 +\u23436 \u25104 \u65289  ========== -->\
+    <div class="page hide" id="page2">\
+      <button class="back-btn" onclick="goBack()">\uc0\u8592  \u36820 \u22238 \u20219 \u21153 \u21015 \u34920 </button>\
+\
+      <div class="task-detail">\
+        <div class="detail-name" id="detailName"></div>\
+        <div class="detail-note" id="detailNote"></div>\
+        <div class="progress"><div class="progress-bar" id="detailBar"></div></div>\
+        <div class="day-text" id="detailDay"></div>\
+      </div>\
+\
+      <!-- \uc0\u20219 \u21153 \u26085 \u21382  -->\
+      <div class="calendar">\
+        <div class="calendar-title">\uc0\u26412 \u26376 \u25171 \u21345 \u26085 \u21382 </div>\
+        <div class="calendar-days" id="detailCal"></div>\
+      </div>\
+\
+      <!-- \uc0\u36229 \u22823 \u23436 \u25104 \u25353 \u38062  -->\
+      <button class="done-btn" id="doneBtn">\uc0\u9989  \u20170 \u26085 \u24050 \u23436 \u25104 </button>\
+      <button class="del-btn" onclick="deleteCurrentTask()">\uc0\u55357 \u56785 \u65039  \u21024 \u38500 \u35813 \u20219 \u21153 </button>\
+    </div>\
+  </div>\
+\
+  <script>\
+    // \uc0\u25968 \u25454 \u23384 \u20648 \
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];\
+    let checkRecord = JSON.parse(localStorage.getItem('checkRecord')) || \{\}; // \uc0\u35760 \u24405 \u27599 \u26085 \u25171 \u21345 \
+    let currentTaskId = null; // \uc0\u24403 \u21069 \u25171 \u24320 \u30340 \u20219 \u21153 ID\
+\
+    const fwCanvas = document.getElementById('fireworks');\
+    const ctx = fwCanvas.getContext('2d');\
+\
+    // \uc0\u21169 \u24535 \u35821 \u24405 \
+    const quotes = [\
+      "\uc0\u22362 \u25345 \u65292 \u26159 \u26368 \u22909 \u30340 \u22825 \u36171 ", "\u33258 \u24459 \u32473 \u25105 \u33258 \u30001 ", "\u26085 \u31215 \u26376 \u32047 \u65292 \u27700 \u28404 \u30707 \u31359 ",\
+      "\uc0\u20170 \u22825 \u30340 \u21162 \u21147 \u65292 \u26126 \u22825 \u30340 \u23454 \u21147 ", "\u19981 \u25302 \u24310 \u65292 \u19981 \u25918 \u24323 "\
+    ];\
+\
+    // \uc0\u20170 \u26085 \u26085 \u26399 \u65288 \u29992 \u20110 \u21028 \u26029 \u26159 \u21542 \u37325 \u22797 \u25171 \u21345 \u65289 \
+    function getToday() \{\
+      let d = new Date();\
+      return `$\{d.getFullYear()\}-$\{d.getMonth()+1\}-$\{d.getDate()\}`;\
+    \}\
+\
+    // \uc0\u21021 \u22987 \u21270 \
+    window.onload = () => \{\
+      showDate();\
+      showQuote();\
+      renderTaskList();\
+    \};\
+\
+    // \uc0\u26174 \u31034 \u26085 \u26399 \
+    function showDate() \{\
+      let d = new Date();\
+      let week = ["\uc0\u21608 \u26085 ","\u21608 \u19968 ","\u21608 \u20108 ","\u21608 \u19977 ","\u21608 \u22235 ","\u21608 \u20116 ","\u21608 \u20845 "][d.getDay()];\
+      document.getElementById('nowDate').innerText = \
+        `$\{d.getFullYear()\}\uc0\u24180 $\{d.getMonth()+1\}\u26376 $\{d.getDate()\}\u26085  \'b7 $\{week\}`;\
+    \}\
+\
+    // \uc0\u26174 \u31034 \u35821 \u24405 \
+    function showQuote() \{\
+      document.getElementById('quote').innerText = quotes[Math.floor(Math.random() * quotes.length)];\
+    \}\
+\
+    // \uc0\u20445 \u23384 \u25968 \u25454 \
+    function saveAll() \{\
+      localStorage.setItem('tasks', JSON.stringify(tasks));\
+      localStorage.setItem('checkRecord', JSON.stringify(checkRecord));\
+    \}\
+\
+    // -------------------- \uc0\u39029 \u38754 1\u65306 \u20219 \u21153 \u21015 \u34920  --------------------\
+    function renderTaskList() \{\
+      let list = document.getElementById('taskList');\
+      list.innerHTML = '';\
+      tasks.forEach(t => \{\
+        let item = document.createElement('div');\
+        item.className = 'task-item';\
+        item.innerText = t.name;\
+        item.onclick = () => openTaskDetail(t.id);\
+        list.appendChild(item);\
+      \});\
+    \}\
+\
+    // \uc0\u28155 \u21152 \u20219 \u21153 \
+    function addTask() \{\
+      let name = document.getElementById('taskName').value.trim();\
+      let days = Number(document.getElementById('taskDays').value);\
+      let note = document.getElementById('taskNote').value.trim();\
+      if (!name || !days || days < 1) \{\
+        alert('\uc0\u35831 \u22635 \u20889 \u20219 \u21153 \u21517 \u31216 \u21644 \u22362 \u25345 \u22825 \u25968 \u65281 ');\
+        return;\
+      \}\
+      tasks.push(\{\
+        id: Date.now(), name, total: days, current: 1, note\
+      \});\
+      document.getElementById('taskName').value = '';\
+      document.getElementById('taskDays').value = '';\
+      document.getElementById('taskNote').value = '';\
+      saveAll();\
+      renderTaskList();\
+    \}\
+\
+    // -------------------- \uc0\u39029 \u38754 \u20999 \u25442  --------------------\
+    function openTaskDetail(id) \{\
+      currentTaskId = id;\
+      let task = tasks.find(t => t.id === id);\
+      if (!task) return;\
+\
+      // \uc0\u22635 \u20219 \u21153 \u20449 \u24687 \
+      document.getElementById('detailName').innerText = task.name;\
+      document.getElementById('detailNote').innerText = task.note || '\uc0\u26080 \u22791 \u27880 ';\
+      let per = (task.current / task.total) * 100;\
+      document.getElementById('detailBar').style.width = per + '%';\
+      document.getElementById('detailDay').innerText = `\uc0\u31532  $\{task.current\} \u22825  / \u20849  $\{task.total\} \u22825 `;\
+\
+      // \uc0\u28210 \u26579 \u26085 \u21382 \
+      renderCal();\
+      // \uc0\u21028 \u26029 \u20170 \u26085 \u26159 \u21542 \u24050 \u25171 \u21345 \
+      checkTodayStatus();\
+\
+      document.getElementById('page1').classList.add('hide');\
+      document.getElementById('page2').classList.remove('hide');\
+    \}\
+\
+    function goBack() \{\
+      document.getElementById('page2').classList.add('hide');\
+      document.getElementById('page1').classList.remove('hide');\
+      renderTaskList();\
+    \}\
+\
+    // -------------------- \uc0\u25171 \u21345 \u38480 \u21046 \u65306 \u20170 \u26085 \u21482 \u33021 \u19968 \u27425  --------------------\
+    function checkTodayStatus() \{\
+      let key = `$\{currentTaskId\}_$\{getToday()\}`;\
+      let btn = document.getElementById('doneBtn');\
+      if (checkRecord[key]) \{\
+        btn.classList.add('hide'); // \uc0\u24050 \u25171 \u21345  \u8594  \u38544 \u34255 \u25353 \u38062 \
+      \} else \{\
+        btn.classList.remove('hide'); // \uc0\u26410 \u25171 \u21345  \u8594  \u26174 \u31034 \u25353 \u38062 \
+      \}\
+    \}\
+\
+    // -------------------- \uc0\u23436 \u25104 \u25171 \u21345 \u65288 \u28895 \u33457 +\u25353 \u38062 \u38544 \u34255 \u65289  --------------------\
+    document.getElementById('doneBtn').onclick = () => \{\
+      let task = tasks.find(t => t.id === currentTaskId);\
+      if (!task) return;\
+\
+      // \uc0\u20219 \u21153 \u24050 \u23436 \u25104 \
+      if (task.current >= task.total) \{\
+        showCert(task.name);\
+        playFireworks();\
+        return;\
+      \}\
+\
+      // \uc0\u20170 \u26085 \u25171 \u21345 \
+      let key = `$\{currentTaskId\}_$\{getToday()\}`;\
+      checkRecord[key] = 1;\
+      task.current++;\
+      saveAll();\
+      playFireworks();\
+      \
+      // \uc0\u21047 \u26032 \u36827 \u24230  + \u38544 \u34255 \u25353 \u38062 \
+      let per = (task.current / task.total) * 100;\
+      document.getElementById('detailBar').style.width = per + '%';\
+      document.getElementById('detailDay').innerText = `\uc0\u31532  $\{task.current\} \u22825  / \u20849  $\{task.total\} \u22825 `;\
+      document.getElementById('doneBtn').classList.add('hide');\
+      renderCal();\
+    \};\
+\
+    // -------------------- \uc0\u26085 \u21382  --------------------\
+    function renderCal() \{\
+      let cal = document.getElementById('detailCal');\
+      cal.innerHTML = '';\
+      let d = new Date();\
+      let days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();\
+      for (let i=1; i<=days; i++) \{\
+        let dateStr = `$\{d.getFullYear()\}-$\{d.getMonth()+1\}-$\{i\}`;\
+        let key = `$\{currentTaskId\}_$\{dateStr\}`;\
+        let div = document.createElement('div');\
+        div.className = 'calendar-day' + (checkRecord[key] ? ' done' : '');\
+        div.innerText = i;\
+        cal.appendChild(div);\
+      \}\
+    \}\
+\
+    // -------------------- \uc0\u28895 \u33457  & \u35777 \u20070  --------------------\
+    function playFireworks() \{\
+      fwCanvas.style.display = 'block';\
+      fwCanvas.width = window.innerWidth;\
+      fwCanvas.height = window.innerHeight;\
+      let particles = [];\
+      for (let i=0; i<180; i++) \{\
+        particles.push(\{\
+          x: fwCanvas.width/2, y: fwCanvas.height/2,\
+          vx: (Math.random()-0.5)*12, vy: (Math.random()-0.5)*12,\
+          life:130, color:`hsl($\{45+Math.random()*15\},100%,65%)`\
+        \});\
+      \}\
+      function draw() \{\
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';\
+        ctx.fillRect(0,0,fwCanvas.width,fwCanvas.height);\
+        let end = true;\
+        particles.forEach(p => \{\
+          if (p.life <=0) return;\
+          end = false;\
+          ctx.fillStyle = p.color;\
+          ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,Math.PI*2); ctx.fill();\
+          p.x += p.vx; p.y += p.vy; p.vy += 0.13; p.life--;\
+        \});\
+        end ? fwCanvas.style.display='none' : requestAnimationFrame(draw);\
+      \}\
+      draw();\
+    \}\
+\
+    function showCert(name) \{\
+      document.getElementById('certText').innerText = `\uc0\u24685 \u21916 \u20320 \u65281 \u24050 \u23436 \u25104 \u20219 \u21153 \u65306 $\{name\}\u65281 \\n\u22362 \u25345 \u21040 \u24213 \u65292 \u23601 \u26159 \u32988 \u21033 \u65281 `;\
+      document.getElementById('cert').style.display = 'block';\
+    \}\
+\
+    function closeCert() \{\
+      document.getElementById('cert').style.display = 'none';\
+    \}\
+\
+    // \uc0\u21024 \u38500 \u24403 \u21069 \u20219 \u21153 \
+    function deleteCurrentTask() \{\
+      if (!confirm('\uc0\u30830 \u23450 \u21024 \u38500 \u35813 \u20219 \u21153 \u65311 ')) return;\
+      tasks = tasks.filter(t => t.id !== currentTaskId);\
+      saveAll();\
+      goBack();\
+    \}\
+  </script>\
+</body>\
+</html>}
